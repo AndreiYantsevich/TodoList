@@ -1,6 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from './App';
-import { Button } from './components/Button';
+import {Button} from './components/Button';
 
 export type TaskType = {
     id: string
@@ -17,6 +17,7 @@ type PropsType = {
     changeFilter: (value: FilterValuesType, todolistID: string) => void
     addTask: (title: string, todolistID: string) => void
     changeTaskStatus: (id: string, isDone: boolean, todolistID: string) => void
+    deleteTodolist: (todolistID: string) => void
     filter: FilterValuesType
 }
 
@@ -45,8 +46,14 @@ export function Todolist(props: PropsType) {
         }
     }
 
+
     return <div>
-        <h3>{props.title}</h3>
+        <h3>{props.title}
+            <button onClick={() => {
+                props.deleteTodolist(props.todolistID)
+            }}>x
+            </button>
+        </h3>
         <div>
             <input value={title}
                    onChange={onChangeHandler}
@@ -64,6 +71,7 @@ export function Todolist(props: PropsType) {
                         props.changeTaskStatus(t.id, e.currentTarget.checked, props.todolistID);
                     }
 
+
                     return <li key={t.id} className={t.isDone ? 'is-done' : ''}>
                         <input type="checkbox"
                                onChange={onChangeHandler}
@@ -77,7 +85,8 @@ export function Todolist(props: PropsType) {
         <div>
             <Button name={'all'} callback={props.changeFilter} todolistID={props.todolistID} filter={props.filter}/>
             <Button name={'active'} callback={props.changeFilter} todolistID={props.todolistID} filter={props.filter}/>
-            <Button name={'completed'} callback={props.changeFilter} todolistID={props.todolistID} filter={props.filter}/>
+            <Button name={'completed'} callback={props.changeFilter} todolistID={props.todolistID}
+                    filter={props.filter}/>
         </div>
     </div>
 }
