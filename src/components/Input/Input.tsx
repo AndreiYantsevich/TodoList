@@ -3,37 +3,43 @@ import style from './Input.module.css'
 
 
 type PropsType = {
-    title: string
-    setTitle: (title: string) => void
-    addTask: (title: string, todolistID: string) => void
-    todolistID: string
+    addTask: (title: string) => void
 }
 
 export const Input = (props: PropsType) => {
 
-
+    let [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setTitle(e.currentTarget.value)
-    }
-
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
-        if (e.charCode === 13) {
-            props.addTask(props.title, props.todolistID);
-            props.setTitle('')
+    const addTaskHandler = () => {
+        if (title.trim() !== '') {
+            props.addTask(title)
+            setTitle('')
+        } else {
+            setError('Title is required');
         }
     }
 
-    return (
-        <div>
-            <input value={props.title}
-                   onChange={onChangeHandler}
-                   onKeyPress={onKeyPressHandler}
-                   className={error ? style.error : ''}
-            />
-            {error && <div className="error-message">{error}</div>}
-        </div>
-    )
-}
+        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+            setTitle(e.currentTarget.value)
+        }
+
+        const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+            setError(null);
+            if (e.charCode === 13) {
+                addTaskHandler();
+            }
+        }
+
+        return (
+            <div>
+                <input value={title}
+                       onChange={onChangeHandler}
+                       onKeyPress={onKeyPressHandler}
+                       className={error ? style.error : ''}
+                />
+                <button onClick={addTaskHandler}>+</button>
+                {error && <div className="error-message">{error}</div>}
+            </div>
+        )
+    }
