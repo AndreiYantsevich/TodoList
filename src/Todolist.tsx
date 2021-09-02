@@ -1,8 +1,9 @@
 import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
-import {Button} from './components/Button/Button';
 import {EditableSpan} from './components/EditableSpan';
 import {Input} from './components/Input/Input';
+import {Button, IconButton} from '@material-ui/core';
+import {Delete} from '@material-ui/icons';
 
 export type TaskType = {
     id: string
@@ -27,19 +28,20 @@ type PropsType = {
 
 export function Todolist(props: PropsType) {
 
-    const clickHandler = (filterValue: FilterValuesType) => {
-        props.changeFilter(filterValue, props.todolistID)
-    }
-
+    const setAllFilterValue = () => props.changeFilter('all', props.todolistID)
+    const setActiveFilterValue = () => props.changeFilter('active', props.todolistID)
+    const setCompletedFilterValue = () => props.changeFilter('completed', props.todolistID)
     const deleteTodolist = () => props.deleteTodolist(props.todolistID)
-
     const changeTodolistTitle = (newTitle: string) => props.changeTodolistTitle(props.todolistID, newTitle)
 
     return <div>
         <h3>
-            <EditableSpan title={props.title} callback={changeTodolistTitle} />
-            <button onClick={deleteTodolist}>x
-            </button>
+            <EditableSpan title={props.title} callback={changeTodolistTitle}/>
+            <IconButton
+                size={'small'}
+                onClick={deleteTodolist}>
+                <Delete/>
+            </IconButton>
         </h3>
         <div className={'both'}>
             <Input addTask={(title) => props.addTask(title, props.todolistID)}/>
@@ -58,16 +60,43 @@ export function Todolist(props: PropsType) {
                         <input type="checkbox"
                                onChange={onChangeHandler}
                                checked={t.isDone}/>
-                        <EditableSpan title={t.title} callback={(title) => props.updateTask(title, props.todolistID, t.id)}/>
-                        <button onClick={removeHandler}>x</button>
+                        <EditableSpan title={t.title}
+                                      callback={(title) => props.updateTask(title, props.todolistID, t.id)}/>
+                        <IconButton
+                            size={'small'}
+                            onClick={removeHandler}>
+                            <Delete/>
+                        </IconButton>
                     </li>
                 })
             }
         </ul>
         <div>
-            <Button name={'all'} filter={props.filter} callback={() => clickHandler('all')}/>
-            <Button name={'active'} filter={props.filter} callback={() => clickHandler('active')}/>
-            <Button name={'completed'} filter={props.filter} callback={() => clickHandler('completed')}/>
+            <Button
+                size={'small'}
+                variant={'contained'}
+                color={props.filter === 'all' ? 'secondary' : 'primary'}
+                // className={allBtnClass}
+                onClick={setAllFilterValue}
+            >All
+            </Button>
+            <Button
+                size={'small'}
+                variant={'contained'}
+                color={props.filter === 'active' ? 'secondary' : 'primary'}
+                // className={activeBtnClass}
+                onClick={setActiveFilterValue}
+                style={{margin: '0 3px'}}
+            >Active
+            </Button>
+            <Button
+                size={'small'}
+                variant={'contained'}
+                color={props.filter === 'completed' ? 'secondary' : 'primary'}
+                // className={completedBtnClass}
+                onClick={setCompletedFilterValue}
+            >Completed
+            </Button>
         </div>
     </div>
 }

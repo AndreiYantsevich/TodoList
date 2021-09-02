@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import style from './Input.module.css'
 
@@ -38,7 +39,7 @@ export const Input = (props: PropsType) => {
                        onKeyPress={onKeyPressHandler}
                        className={error ? style.error : ''}
                 />
-                <button onClick={addTaskHandler}>+</button>
+                <Button variant="contained" color="primary" onClick={addTaskHandler}>+</Button>
                 {error && <div className="error-message">{error}</div>}
             </div>
         )
