@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
 import {EditableSpan} from './components/EditableSpan';
 import {Input} from './components/Input/Input';
-import {Button, IconButton} from '@material-ui/core';
+import {Button, Checkbox, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
 
 export type TaskType = {
@@ -46,7 +46,7 @@ export function Todolist(props: PropsType) {
         <div className={'both'}>
             <Input addTask={(title) => props.addTask(title, props.todolistID)}/>
         </div>
-        <ul>
+        <div>
             {
                 props.tasks.map(t => {
                     const removeHandler = () => {
@@ -56,10 +56,13 @@ export function Todolist(props: PropsType) {
                         props.changeTaskStatus(t.id, e.currentTarget.checked, props.todolistID);
                     }
 
-                    return <li key={t.id} className={t.isDone ? 'is-done' : ''}>
-                        <input type="checkbox"
-                               onChange={onChangeHandler}
-                               checked={t.isDone}/>
+                    return <div key={t.id} className={t.isDone ? 'is-done' : ''}>
+                        <Checkbox
+                            size={"small"}
+                            color={"primary"}
+                            checked={t.isDone}
+                            onChange={onChangeHandler}
+                        />
                         <EditableSpan title={t.title}
                                       callback={(title) => props.updateTask(title, props.todolistID, t.id)}/>
                         <IconButton
@@ -67,10 +70,10 @@ export function Todolist(props: PropsType) {
                             onClick={removeHandler}>
                             <Delete/>
                         </IconButton>
-                    </li>
+                    </div>
                 })
             }
-        </ul>
+        </div>
         <div>
             <Button
                 size={'small'}
