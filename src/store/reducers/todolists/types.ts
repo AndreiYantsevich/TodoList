@@ -1,7 +1,7 @@
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
-export type TodolistState = {
+export type TodolistStateType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -20,17 +20,17 @@ export interface AddTodolistAction {
 }
 export interface ChangeTodolistTitleAction {
     type: TodolistActionEnum.CHANGE_TODOLIST_TITLE;
-    todolistID: string
+    id: string
     title: string
 }
 export interface ChangeTodolistFilterAction {
     type: TodolistActionEnum.CHANGE_TODOLIST_FILTER;
-    todolistID: string
-    value: FilterValuesType
+    id: string
+    filter: FilterValuesType
 }
 export interface DeleteTodolistAction {
     type: TodolistActionEnum.DELETE_TODOLIST;
-    todolistID: string
+    id: string
 }
 
 export type TodolistAction =
