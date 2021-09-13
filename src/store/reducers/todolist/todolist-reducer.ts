@@ -1,11 +1,9 @@
-import {TodolistAction, TodolistActionEnum, TodolistStateType} from './types';
+import {ActionType, TodolistActionEnum, TodolistType} from './types';
 import {v1} from 'uuid';
 
-let initialState: Array<TodolistStateType> = [
-    {id: v1(), title: 'What to learn', filter: 'all'},
-]
+let initialState: Array<TodolistType> = []
 
-export default function todolistsReducer(state = initialState, action: TodolistAction) {
+export default function todolistsReducer(state = initialState, action: ActionType) {
     switch (action.type) {
         case TodolistActionEnum.ADD_TODOLIST:
             return [...state, {id: v1(), title: action.title, filter: 'all'}]

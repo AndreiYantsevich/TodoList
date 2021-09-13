@@ -1,5 +1,6 @@
+import {AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, DeleteTaskAC} from './tasksAC'
 
-export type TaskStateType = {
+export type TaskType = {
     id: string
     title: string
     isDone: boolean
@@ -12,30 +13,16 @@ export enum TaskActionEnum {
     DELETE_TASK = 'DELETE_TASK'
 }
 
-export interface AddTaskAction {
-    type: TaskActionEnum.ADD_TASK;
-    title: string
-}
+export type AddTaskACType = ReturnType<typeof AddTaskAC>
 
-export interface ChangeTaskStatusAction {
-    type: TaskActionEnum.CHANGE_TASK_STATUS;
-    id: string
-    isDone: boolean
-}
+export type ChangeTaskStatusACType = ReturnType<typeof ChangeTaskStatusAC>
 
-export interface ChangeTaskTitleAction {
-    type: TaskActionEnum.CHANGE_TASK_TITLE;
-    id: string
-    title: string
-}
+export type ChangeTaskTitleACType = ReturnType<typeof ChangeTaskTitleAC>
 
-export interface DeleteTaskAction {
-    type: TaskActionEnum.DELETE_TASK;
-    id: string
-}
+export type DeleteTaskACType = ReturnType<typeof DeleteTaskAC>
 
-export type TaskAction =
-    AddTaskAction |
-    ChangeTaskStatusAction |
-    ChangeTaskTitleAction |
-    DeleteTaskAction
+export type ActionType =
+    AddTaskACType |
+    ChangeTaskStatusACType |
+    ChangeTaskTitleACType |
+    DeleteTaskACType

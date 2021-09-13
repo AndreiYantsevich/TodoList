@@ -3,32 +3,31 @@ import {EditableSpan} from './components/EditableSpan';
 import {Input} from './components/Input/Input';
 import {Button, Checkbox, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
-import {FilterValuesType, TodolistStateType} from './store/reducers/todolists/types';
-import {
-    changeTodolistFilterThunk,
-    changeTodolistTitleThunk,
-    deleteTodolistThunk
-} from './store/reducers/todolists/todolistsAC';
-import {useDispatch, useSelector} from 'react-redux';
-import {rootReducerType} from './store/store';
-import {TaskStateType} from './store/reducers/tasks/types';
+import {TaskType} from './store/reducers/tasks/types';
+import {FilterValuesType} from './store/reducers/todolist/types';
 
 type PropsType = {
     key: string
+    todolistID: string
     title: string
+    tasks: Array<TaskType>
+    deleteTask: (id: string, todolistID: string) => void
+    changeTodolistFilter: (value: FilterValuesType, todolistID: string) => void
+    addTask: (title: string, todolistID: string) => void
+    changeTaskStatus: (id: string, isDone: boolean, todolistID: string) => void
+    deleteTodolist: (todolistID: string) => void
+    changeTodolistTitle: (todolistID: string, newTitle: string) => void
     filter: FilterValuesType
+    changeTaskTitle: (title: string, todolistID: string, taskID: string) => void
 }
 
 export function Todolist(props: PropsType) {
 
-    const setAllFilterValue = () => dispatch(changeTodolistFilterThunk(props.todolistID, 'all'))
-    const setActiveFilterValue = () => dispatch(changeTodolistFilterThunk(props.todolistID, 'active'))
-    const setCompletedFilterValue = () => dispatch(changeTodolistFilterThunk(props.todolistID, 'completed'))
-    const deleteTodolist = () => dispatch(deleteTodolistThunk(props.todolistID))
-    const changeTodolistTitle = (title: string) => dispatch(changeTodolistTitleThunk(props.todolistID, title))
-
-    let dispatch = useDispatch();
-    let tasks = useSelector<rootReducerType, Array<TaskStateType>>(state => state.tasks)
+    const setAllFilterValue = () => props.changeFilter('all', props.todolistID)
+    const setActiveFilterValue = () => props.changeFilter('active', props.todolistID)
+    const setCompletedFilterValue = () => props.changeFilter('completed', props.todolistID)
+    const deleteTodolist = () => props.deleteTodolist(props.todolistID)
+    const changeTodolistTitle = (newTitle: string) => props.changeTodolistTitle(props.todolistID, newTitle)
 
     return <div>
         <h3>
@@ -40,11 +39,11 @@ export function Todolist(props: PropsType) {
             </IconButton>
         </h3>
         <div className={'both'}>
-            <Input/>
+            <Input addTask={(title) => props.addTask(title, props.todolistID)}/>
         </div>
         <div>
             {
-                tasks.map(t => {
+                props.tasks.map(t => {
                     const removeHandler = () => {
                         props.removeTask(t.id, props.todolistID)
                     }
@@ -98,5 +97,4 @@ export function Todolist(props: PropsType) {
             </Button>
         </div>
     </div>
-}
 }

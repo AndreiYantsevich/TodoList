@@ -1,21 +1,61 @@
 import React from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
+import {v1} from 'uuid';
 import {Input} from './components/Input/Input';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector } from 'react-redux';
 import {rootReducerType} from './store/store';
-import {TodolistStateType} from './store/reducers/todolists/types';
-import {addTodolistThunk} from './store/reducers/todolists/todolistsAC';
+import {FilterValuesType, TodolistType} from './store/reducers/todolist/types';
+import {TaskType} from './store/reducers/tasks/types';
+import {AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, DeleteTaskAC} from './store/reducers/tasks/tasksAC';
+import {
+    AddTodolistAC,
+    ChangeTodolistFilterAC,
+    ChangeTodolistTitleAC,
+    DeleteTodolistAC
+} from './store/reducers/todolist/todolistAC';
 
 
 function App() {
 
-    const addTodolist = (title: string) => dispatch(addTodolistThunk(title))
+    let todolist = useSelector<rootReducerType, Array<TodolistType>>(state => state.todolist)
+    let tasks = useSelector<rootReducerType, Array<TaskType>>(state => state.tasks)
+    let dispatch = useDispatch()
 
-    let dispatch = useDispatch();
-    let todolist = useSelector<rootReducerType, Array<TodolistStateType>>(state => state.todolist)
+    function addTask(title: string) {
+        dispatch(AddTaskAC(title))
+    }
+
+    function deleteTask(id: string) {
+        dispatch(DeleteTaskAC(id))
+    }
+
+    const changeTaskTitle = (title: string, id: string) => {
+        dispatch(ChangeTaskTitleAC(id, title))
+    }
+
+    function changeTaskStatus(id: string, isDone: boolean) {
+        dispatch(ChangeTaskStatusAC(id, isDone))
+    }
+
+    const addTodolist = (title: string) => {
+        dispatch(AddTodolistAC(title))
+    }
+
+    function deleteTodolist(id: string) {
+        dispatch(DeleteTodolistAC(id))
+    }
+
+    const changeTodolistTitle = (id: string, title: string) => {
+        dispatch(ChangeTodolistTitleAC(id, title))
+    }
+
+    function changeTodolistFilter(value: FilterValuesType, id: string) {
+        dispatch(ChangeTodolistFilterAC(id, value))
+    }
+
 
     return (
         <div className="App">
@@ -61,8 +101,17 @@ function App() {
                                     <Paper elevation={10} style={{padding: '10px'}}>
                                         <Todolist
                                             key={tl.id}
+                                            todolistID={tl.id}
                                             title={tl.title}
+                                            tasks={tasksForTodolist}
+                                            deleteTask={deleteTask}
+                                            changeTodolistFilter={changeTodolistFilter}
+                                            addTask={addTask}
+                                            changeTaskStatus={changeTaskStatus}
+                                            deleteTodolist={deleteTodolist}
                                             filter={tl.filter}
+                                            changeTaskTitle={changeTaskTitle}
+                                            changeTodolistTitle={changeTodolistTitle}
                                         />
                                     </Paper>
                                 </Grid>

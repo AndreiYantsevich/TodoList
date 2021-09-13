@@ -1,11 +1,6 @@
-import {Button, IconButton, TextField} from '@material-ui/core';
+import {IconButton, TextField} from '@material-ui/core';
 import {AddBox} from '@material-ui/icons';
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import style from './Input.module.css'
-import {addTodolistThunk} from '../../store/reducers/todolists/todolistsAC';
-import {useDispatch, useSelector} from 'react-redux';
-import {rootReducerType} from '../../store/store';
-import {TodolistStateType} from '../../store/reducers/todolists/types';
 
 
 type PropsType = {
@@ -16,12 +11,6 @@ export const Input = (props: PropsType) => {
 
     let [title, setTitle] = useState('')
     let [error, setError] = useState<boolean>(false)
-
-    const addTodolist = (title: string) => dispatch(addTodolistThunk(title))
-
-    let dispatch = useDispatch();
-
-
 
     const addTaskHandler = () => {
         if (title.trim() !== '') {
