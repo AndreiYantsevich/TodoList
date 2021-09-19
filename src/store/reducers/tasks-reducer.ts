@@ -20,17 +20,17 @@ export type AddTaskActionType = {
     title: string
     todolistId: string
 }
-export type ChangeTaskTitleActionType = {
-    type: 'CHANGE-TASK-TITLE',
-    todolistId: string
-    title: string
-    taskId: string
-}
 export type ChangeTaskStatusActionType = {
     type: 'CHANGE-TASK-STATUS',
     taskId: string
     isDone: boolean
     todolistId: string
+}
+export type ChangeTaskTitleActionType = {
+    type: 'CHANGE-TASK-TITLE',
+    todolistId: string
+    title: string
+    taskId: string
 }
 
 const initialState: TasksStateType = {}
@@ -46,23 +46,16 @@ type ActionsType =
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case REMOVE_TASK:
-            let copyState = {...state}
-            copyState[action.todolistId] = copyState[action.todolistId].filter(t => t.id != action.taskId)
-            return copyState;
+            return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id != action.taskId)}
         case ADD_TASK :
             let newTask: TaskType = {id: v1(), title: action.title, isDone: false};
             return {...state, [action.todolistId]: [newTask, ...state[action.todolistId]]}
-        case CHANGE_TASK_STATUS :
+        case CHANGE_TASK_STATUS:
             return {
-                ...state, [action.todolistId]: state[action.todolistId].map(t => {
-                    if (t.id === action.taskId) {
-                        return {...t, isDone: action.isDone}
-                    } else {
-                        return t
-                    }
-                })
+                ...state, [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ?
+                    {...t, isDone: action.isDone} : t)
             }
-        case CHANGE_TASK_TITLE :
+        case CHANGE_TASK_TITLE:
             return {
                 ...state, [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ?
                     {...t, title: action.title} : t)
