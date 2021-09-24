@@ -26,7 +26,7 @@ export type TasksStateType = {
 }
 
 
-function App() {
+const App = () => {
 
     let todolists = useSelector<AppRootStateType, TodolistType[]>(state => state.todolists)
     let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)

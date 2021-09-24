@@ -25,7 +25,7 @@ type PropsType = {
     changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
 
-export function Todolist(props: PropsType) {
+export const Todolist = (props: PropsType) => {
     const addTask = (title: string) => {
         props.addTask(title, props.id);
     }
