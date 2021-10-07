@@ -1,13 +1,17 @@
 import {combineReducers, createStore} from 'redux';
-import reducers from './reducers/reducers';
+import tasksReducer from './reducers/tasks/tasks-reducer';
+import {todolistsReducer} from './reducers/todolists/todolists-reducer';
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
-const rootReducer = combineReducers(reducers);
+const reducers = combineReducers({
+    tasks: tasksReducer,
+    todolists: todolistsReducer
+});
 // непосредственно создаём store
-export const store = createStore(rootReducer);
+export const store = createStore(reducers);
 // определить автоматически тип всего объекта состояния
-export type RootStateType = ReturnType<typeof store.getState>;
+export type RootStateType = ReturnType<typeof reducers>;
 export type AppDispatch = typeof store.dispatch;
 
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент

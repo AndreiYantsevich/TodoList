@@ -1,6 +1,0 @@
-
-
-export default {
-    tasks,
-    todolists
-}
