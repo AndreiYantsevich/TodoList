@@ -4,10 +4,10 @@ import {TodolistsAction, TodolistsActionEnum, TodolistType} from './todolists-ty
 const initialState: Array<TodolistType> = []
 
 
-export const todolistsReducer = (state: Array<TodolistType> = initialState, action: TodolistsAction): Array<TodolistType> => {
+export default function todolistsReducer(state: Array<TodolistType> = initialState, action: TodolistsAction): Array<TodolistType> {
     switch (action.type) {
         case TodolistsActionEnum.REMOVE_TODOLIST:
-            return state.filter(tl => tl.id != action.payload.todolistId)
+            return state.filter(tl => tl.id !== action.payload.todolistId)
         case TodolistsActionEnum.ADD_TODOLIST:
             return [{id: action.payload.todolistId, title: action.payload.title, filter: 'all'}, ...state]
         case TodolistsActionEnum.CHANGE_TODOLIST_TITLE: {
@@ -16,7 +16,7 @@ export const todolistsReducer = (state: Array<TodolistType> = initialState, acti
                 // если нашёлся - изменим ему заголовок
                 todolist.title = action.payload.title;
             }
-            return [...state]
+            return [...state];
         }
         case TodolistsActionEnum.CHANGE_TODOLIST_FILTER: {
             const todolist = state.find(tl => tl.id === action.payload.id);

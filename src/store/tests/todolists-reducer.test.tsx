@@ -1,13 +1,11 @@
 import React from 'react';
-import {
-    AddTodolistAC,
-    ChangeTodolistFilterAC,
-    ChangeTodolistTitleAC,
-    RemoveTodolistAC,
-    todolistsReducer
-} from '../reducers/todolists/todolists-reducer';
+
 import {v1} from 'uuid';
-import {FilterValuesType, TodolistType} from '../../App(old)';
+import { FilterValuesType } from '../reducers/tasks/tasks-types';
+
+import todolistsReducer from '../reducers/todolists/todolists-reducer';
+import { TodolistType } from '../reducers/todolists/todolists-types';
+import {TodolistsActions} from '../reducers/todolists/todolists-actions';
 
 let todolistId1 = v1();
 let todolistId2 = v1();
@@ -25,7 +23,7 @@ beforeEach(() => {
 
 test('correct todolist should be removed', () => {
 
-    const endState = todolistsReducer(startState, RemoveTodolistAC(todolistId1))
+    const endState = todolistsReducer(startState, TodolistsActions.removeTodolist(todolistId1))
 
     expect(endState.length).toBe(1);
     expect(endState[0].id).toBe(todolistId2);
@@ -35,7 +33,7 @@ test('correct todolist should be added', () => {
 
     let newTodolistTitle = "New Todolist";
 
-    const endState = todolistsReducer(startState, AddTodolistAC(newTodolistTitle))
+    const endState = todolistsReducer(startState, TodolistsActions.addTodolist(newTodolistTitle))
 
     expect(endState.length).toBe(3);
     expect(endState[2].title).toBe(newTodolistTitle);
@@ -47,7 +45,7 @@ test('correct todolist should change its name', () => {
 
     let newTodolistTitle = "New Todolist";
 
-    const action = ChangeTodolistTitleAC(todolistId2, newTodolistTitle);
+    const action = TodolistsActions.changeTodolistTitle(todolistId2, newTodolistTitle);
 
     const endState = todolistsReducer(startState, action);
 
@@ -59,7 +57,7 @@ test('correct filter of todolist should be changed', () => {
 
     let newFilter: FilterValuesType = "completed";
 
-    const action = ChangeTodolistFilterAC(todolistId2, newFilter);
+    const action = TodolistsActions.changeTodolistFilter(todolistId2, newFilter);
 
     const endState = todolistsReducer(startState, action);
 
