@@ -1,16 +1,12 @@
-
-import {TodolistsActions} from '../reducers/todolists/todolists-actions';
-import tasksReducer from '../reducers/tasks/tasks-reducer';
-import todolistsReducer from '../reducers/todolists/todolists-reducer';
-import { TasksStateType } from '../reducers/tasks/tasks-types';
-import { TodolistType } from '../reducers/todolists/todolists-types';
+import tasksReducer, {TasksStateType} from '../reducers/tasks-reducer';
+import todolistsReducer, {TodolistsActions, TodolistType} from '../reducers/todolists-reducer';
 
 
 test('ids should be equals', () => {
     const startTasksState: TasksStateType = {};
     const startTodolistsState: Array<TodolistType> = [];
 
-    const action = TodolistsActions.addTodolist("new todolist");
+    const action = TodolistsActions.addTodolist('new todolist');
 
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = todolistsReducer(startTodolistsState, action)

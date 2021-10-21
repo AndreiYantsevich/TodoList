@@ -1,7 +1,6 @@
-import {TasksStateType} from '../reducers/tasks/tasks-types';
-import {TasksActions} from '../reducers/tasks/tasks-actions';
-import tasksReducer from '../reducers/tasks/tasks-reducer';
-import {TodolistsActions} from '../reducers/todolists/todolists-actions';
+import tasksReducer, {TasksActions, TasksStateType } from '../reducers/tasks-reducer';
+import { TodolistsActions } from '../reducers/todolists-reducer';
+
 
 
 let startState: TasksStateType;

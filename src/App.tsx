@@ -4,12 +4,10 @@ import {Todolist} from './components/Todolist';
 import {AddItemForm} from './components/AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootStateType} from './store/store';
-import {FilterValuesType, TasksStateType} from './store/reducers/tasks/tasks-types';
-import {TasksActions} from './store/reducers/tasks/tasks-actions';
-import { TodolistType } from './store/reducers/todolists/todolists-types';
-import { TodolistsActions } from './store/reducers/todolists/todolists-actions';
+import {TodolistsActions, TodolistType} from './store/reducers/todolists-reducer';
+import {FilterValuesType, TasksActions, TasksStateType} from './store/reducers/tasks-reducer';
 
 
 const App = () => {
@@ -67,7 +65,7 @@ const App = () => {
                 </Toolbar>
             </AppBar>
             <Container fixed>
-                <Grid container style={{padding: "20px"}}>
+                <Grid container style={{padding: '20px'}}>
                     <AddItemForm addItem={addTodolist}/>
                 </Grid>
                 <Grid container spacing={3}>
@@ -76,16 +74,16 @@ const App = () => {
                             let allTodolistTasks = tasks[tl.id];
                             let tasksForTodolist = allTodolistTasks;
 
-                            if (tl.filter === "active") {
+                            if (tl.filter === 'active') {
                                 tasksForTodolist = allTodolistTasks.filter(t => !t.isDone);
                             }
-                            if (tl.filter === "completed") {
+                            if (tl.filter === 'completed') {
                                 tasksForTodolist = allTodolistTasks.filter(t => t.isDone);
                             }
 
                             return <Grid item
                                          key={tl.id}>
-                                <Paper style={{padding: "10px"}}>
+                                <Paper style={{padding: '10px'}}>
                                     <Todolist
                                         key={tl.id}
                                         id={tl.id}
