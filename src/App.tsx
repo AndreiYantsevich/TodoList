@@ -7,31 +7,13 @@ import {Menu} from '@material-ui/icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootStateType} from './store/store';
 import {TodolistsActions, TodolistType} from './store/reducers/todolists-reducer';
-import {FilterValuesType, TasksActions, TasksStateType} from './store/reducers/tasks-reducer';
+import {FilterValuesType} from './store/reducers/tasks-reducer';
 
 
 const App = () => {
 
-    let todolists = useSelector<RootStateType, TodolistType[]>(state => state.todolists)
-    let tasks = useSelector<RootStateType, TasksStateType>(state => state.tasks)
-
+    const todolists = useSelector<RootStateType, Array<TodolistType>>(state => state.todolists)
     const dispatch = useDispatch<AppDispatch>()
-
-    const removeTask = useCallback((id: string, todolistId: string) => {
-        dispatch(TasksActions.removeTask(id, todolistId));
-    }, [dispatch]);
-
-    const addTask = useCallback((title: string, todolistId: string) => {
-        dispatch(TasksActions.addTask(title, todolistId));
-    }, [dispatch]);
-
-    const changeStatus = useCallback((id: string, isDone: boolean, todolistId: string) => {
-        dispatch(TasksActions.changeTaskStatus(id, isDone, todolistId));
-    }, [dispatch]);
-
-    const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {
-        dispatch(TasksActions.changeTaskTitle(id, newTitle, todolistId));
-    }, [dispatch]);
 
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
         dispatch(TodolistsActions.changeTodolistFilter(todolistId, value));
@@ -71,8 +53,6 @@ const App = () => {
                 <Grid container spacing={3}>
                     {
                         todolists.map(tl => {
-                            let allTodolistTasks = tasks[tl.id];
-                            let tasksForTodolist = allTodolistTasks;
 
                             return <Grid item
                                          key={tl.id}>
@@ -81,14 +61,9 @@ const App = () => {
                                         key={tl.id}
                                         id={tl.id}
                                         title={tl.title}
-                                        tasks={tasksForTodolist}
-                                        removeTask={removeTask}
                                         changeFilter={changeFilter}
-                                        addTask={addTask}
-                                        changeTaskStatus={changeStatus}
                                         filter={tl.filter}
                                         removeTodolist={removeTodolist}
-                                        changeTaskTitle={changeTaskTitle}
                                         changeTodolistTitle={changeTodolistTitle}
                                     />
                                 </Paper>

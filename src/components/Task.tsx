@@ -1,29 +1,30 @@
-import {TaskType} from '../store/reducers/tasks-reducer';
+import {TasksActions, TaskType} from '../store/reducers/tasks-reducer';
 import React, {ChangeEvent, useCallback} from 'react';
 import {Checkbox, IconButton} from '@material-ui/core';
 import {EditableSpan} from './EditableSpan';
 import {Delete} from '@material-ui/icons';
+import {useDispatch} from 'react-redux';
+import {AppDispatch} from '../store/store';
 
-type TaskPropsType = {
-    removeTask: (taskId: string, todolistId: string) => void
-    changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
-    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
+type PropsType = {
     task: TaskType
     todolistId: string
 }
 
-export const Task = React.memo((props: TaskPropsType) => {
+export const Task = React.memo((props: PropsType) => {
 
-    const onClickHandler = () => props.removeTask(props.task.id, props.todolistId)
+    const dispatch = useDispatch<AppDispatch>()
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const onClickHandler = useCallback(() => dispatch(TasksActions.removeTask(props.task.id, props.todolistId)), [props.task.id, props.todolistId]);
+
+    const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        props.changeTaskStatus(props.task.id, newIsDoneValue, props.todolistId);
-    }
+        dispatch(TasksActions.changeTaskStatus(props.task.id, newIsDoneValue, props.todolistId));
+    }, [props.task.id, props.todolistId]);
 
     const onTitleChangeHandler = useCallback((newValue: string) => {
-        props.changeTaskTitle(props.task.id, newValue, props.todolistId);
-    },[props.changeTaskTitle, props.task.id, props.todolistId]);
+        dispatch(TasksActions.changeTaskTitle(props.task.id, newValue, props.todolistId));
+    }, [props.task.id, props.todolistId]);
 
     return <div key={props.task.id} className={props.task.isDone ? 'is-done' : ''}>
         <Checkbox
@@ -31,7 +32,6 @@ export const Task = React.memo((props: TaskPropsType) => {
             color="primary"
             onChange={onChangeHandler}
         />
-
         <EditableSpan value={props.task.title} onChange={onTitleChangeHandler}/>
         <IconButton onClick={onClickHandler}>
             <Delete/>
