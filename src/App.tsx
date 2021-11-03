@@ -6,7 +6,13 @@ import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography}
 import {Menu} from '@material-ui/icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootStateType} from './store/store';
-import {TodolistsActions, TodolistType} from './store/reducers/todolists-reducer';
+import {
+    addTodolistAC,
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
+    removeTodolistAC,
+    TodolistType
+} from './store/reducers/todolists-reducer';
 import {FilterValuesType} from './store/reducers/tasks-reducer';
 
 
@@ -16,20 +22,20 @@ const App = () => {
     const dispatch = useDispatch<AppDispatch>()
 
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
-        dispatch(TodolistsActions.changeTodolistFilter(todolistId, value));
+        dispatch(changeTodolistFilterAC(todolistId, value));
     }, [dispatch]);
 
     const removeTodolist = useCallback((id: string) => {
-        const action = TodolistsActions.removeTodolist(id);
+        const action = removeTodolistAC(id);
         dispatch(action);
     }, [dispatch]);
 
     const changeTodolistTitle = useCallback((id: string, title: string) => {
-        dispatch(TodolistsActions.changeTodolistTitle(id, title));
+        dispatch(changeTodolistTitleAC(id, title));
     }, [dispatch]);
 
     const addTodolist = useCallback((title: string) => {
-        const action = TodolistsActions.addTodolist(title);
+        const action = addTodolistAC(title);
         dispatch(action);
     }, [dispatch]);
 

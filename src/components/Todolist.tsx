@@ -3,7 +3,7 @@ import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import {Button, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
-import {FilterValuesType, TasksActions, TaskType} from '../store/reducers/tasks-reducer';
+import {addTaskAC, FilterValuesType, TaskType} from '../store/reducers/tasks-reducer';
 import {Task} from './Task';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootStateType} from '../store/store';
@@ -17,7 +17,7 @@ type PropsType = {
     filter: FilterValuesType
 }
 
-export const Todolist = React.memo((props: PropsType) => {
+export const Todolist: React.FC<PropsType> = React.memo((props) => {
 
     const tasks = useSelector<RootStateType, Array<TaskType>>(state => state.tasks[props.id])
     const dispatch = useDispatch<AppDispatch>()
@@ -50,7 +50,7 @@ export const Todolist = React.memo((props: PropsType) => {
             </IconButton>
         </h3>
         <AddItemForm addItem={(title) => {
-            dispatch(TasksActions.addTask(title, props.id));
+            dispatch(addTaskAC(title, props.id));
         }}/>
         <div>
             {

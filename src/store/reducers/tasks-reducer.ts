@@ -20,7 +20,7 @@ export enum TaskEnum {
     CHANGE_TASK_STATUS = 'CHANGE_TASK_STATUS',
 }
 
-interface RemoveTaskAction {
+type RemoveTaskAction = {
     type: TaskEnum.REMOVE_TASK;
     payload: {
         taskId: string;
@@ -28,7 +28,7 @@ interface RemoveTaskAction {
     }
 }
 
-interface AddTaskAction {
+type AddTaskAction = {
     type: TaskEnum.ADD_TASK;
     payload: {
         title: string;
@@ -36,7 +36,7 @@ interface AddTaskAction {
     }
 }
 
-interface ChangeTaskStatusAction {
+type ChangeTaskStatusAction = {
     type: TaskEnum.CHANGE_TASK_STATUS;
     payload: {
         taskId: string;
@@ -45,7 +45,7 @@ interface ChangeTaskStatusAction {
     }
 }
 
-interface ChangeTaskTitleAction {
+type ChangeTaskTitleAction = {
     type: TaskEnum.CHANGE_TASK_TITLE;
     payload: {
         taskId: string;
@@ -97,21 +97,21 @@ export default function tasksReducer(state: TasksStateType = initialState, actio
     }
 }
 
-export const TasksActions = {
-    removeTask: (taskId: string, todolistId: string): RemoveTaskAction => ({
-        type: TaskEnum.REMOVE_TASK,
-        payload: {taskId, todolistId}
-    }),
-    addTask: (title: string, todolistId: string): AddTaskAction => ({
-        type: TaskEnum.ADD_TASK,
-        payload: {title, todolistId}
-    }),
-    changeTaskStatus: (taskId: string, isDone: boolean, todolistId: string): ChangeTaskStatusAction => ({
-        type: TaskEnum.CHANGE_TASK_STATUS,
-        payload: {taskId, isDone, todolistId}
-    }),
-    changeTaskTitle: (taskId: string, title: string, todolistId: string): ChangeTaskTitleAction => ({
-        type: TaskEnum.CHANGE_TASK_TITLE,
-        payload: {taskId, title, todolistId}
-    }),
-}
+
+export const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskAction => ({
+    type: TaskEnum.REMOVE_TASK,
+    payload: {taskId, todolistId}
+})
+export const addTaskAC = (title: string, todolistId: string): AddTaskAction => ({
+    type: TaskEnum.ADD_TASK,
+    payload: {title, todolistId}
+})
+export const changeTaskStatusAC = (taskId: string, isDone: boolean, todolistId: string): ChangeTaskStatusAction => ({
+    type: TaskEnum.CHANGE_TASK_STATUS,
+    payload: {taskId, isDone, todolistId}
+})
+export const changeTaskTitleAC = (taskId: string, title: string, todolistId: string): ChangeTaskTitleAction => ({
+    type: TaskEnum.CHANGE_TASK_TITLE,
+    payload: {taskId, title, todolistId}
+})
+

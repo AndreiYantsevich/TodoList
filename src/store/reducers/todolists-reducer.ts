@@ -14,12 +14,12 @@ export enum TodolistEnum {
     CHANGE_TODOLIST_FILTER = 'CHANGE_TODOLIST_FILTER',
 }
 
-export interface RemoveTodolistAction {
+export type RemoveTodolistAction = {
     type: TodolistEnum.REMOVE_TODOLIST;
     payload: { todolistId: string; }
 }
 
-export interface AddTodolistAction {
+export type AddTodolistAction = {
     type: TodolistEnum.ADD_TODOLIST;
     payload: {
         title: string;
@@ -27,7 +27,7 @@ export interface AddTodolistAction {
     }
 }
 
-interface ChangeTodolistTitleAction {
+type ChangeTodolistTitleAction = {
     type: TodolistEnum.CHANGE_TODOLIST_TITLE;
     payload: {
         id: string;
@@ -35,7 +35,7 @@ interface ChangeTodolistTitleAction {
     }
 }
 
-interface ChangeTodolistFilterAction {
+type ChangeTodolistFilterAction = {
     type: TodolistEnum.CHANGE_TODOLIST_FILTER;
     payload: {
         id: string;
@@ -78,21 +78,20 @@ export default function todolistsReducer(state: Array<TodolistType> = initialSta
     }
 }
 
-export const TodolistsActions = {
-    removeTodolist: (todolistId: string): RemoveTodolistAction => ({
-        type: TodolistEnum.REMOVE_TODOLIST,
-        payload: {todolistId}
-    }),
-    addTodolist: (title: string): AddTodolistAction => ({
-        type: TodolistEnum.ADD_TODOLIST,
-        payload: {title, todolistId: v1()}
-    }),
-    changeTodolistTitle: (todolistId: string, title: string): ChangeTodolistTitleAction => ({
-        type: TodolistEnum.CHANGE_TODOLIST_TITLE,
-        payload: {id: todolistId, title}
-    }),
-    changeTodolistFilter: (todolistId: string, filter: FilterValuesType): ChangeTodolistFilterAction => ({
-        type: TodolistEnum.CHANGE_TODOLIST_FILTER,
-        payload: {id: todolistId, filter}
-    })
-}
+
+export const removeTodolistAC = (todolistId: string): RemoveTodolistAction => ({
+    type: TodolistEnum.REMOVE_TODOLIST,
+    payload: {todolistId}
+})
+export const addTodolistAC = (title: string): AddTodolistAction => ({
+    type: TodolistEnum.ADD_TODOLIST,
+    payload: {title, todolistId: v1()}
+})
+export const changeTodolistTitleAC = (todolistId: string, title: string): ChangeTodolistTitleAction => ({
+    type: TodolistEnum.CHANGE_TODOLIST_TITLE,
+    payload: {id: todolistId, title}
+})
+export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesType): ChangeTodolistFilterAction => ({
+    type: TodolistEnum.CHANGE_TODOLIST_FILTER,
+    payload: {id: todolistId, filter}
+})
