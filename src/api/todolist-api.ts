@@ -13,7 +13,7 @@ export const todolistApi = {
         return instance.get<Array<TodoType>>(`todo-lists`)
     },
     createTodo(title: string) {
-        return instance.post<CommonResponseType<{ item: TodoType }>>(`todo-lists`, {title: title})
+        return instance.post<CommonResponseType<TodoType>>(`todo-lists`, {title})
     },
     deleteTodo(todolistId: string) {
         return instance.delete<CommonResponseType>(`todo-lists/${todolistId}`)
