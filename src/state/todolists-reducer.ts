@@ -5,33 +5,20 @@ const initialState: Array<TodolistDomainType> = []
 
 export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsType): Array<TodolistDomainType> => {
     switch (action.type) {
-        case 'REMOVE-TODOLIST': {
+        case 'REMOVE-TODOLIST':
             return state.filter(tl => tl.id !== action.id)
-        }
-        case 'ADD-TODOLIST': {
-            return [{
-                id: action.todolistId,
-                title: action.title,
-                filter: 'all',
-                addedDate: '',
-                order: 0
-            }, ...state]
-        }
-        case 'CHANGE-TODOLIST-TITLE': {
-            const todolist = state.find(tl => tl.id === action.id);
-            if (todolist) {
-                // если нашёлся - изменим ему заголовок
-                todolist.title = action.title;
-            }
-            return [...state]
-        }
+        case 'ADD-TODOLIST':
+            return [{...action.todolist, filter: 'all'}, ...state]
+        case 'CHANGE-TODOLIST-TITLE':
+            return state.map(tl => tl.id === action.id ? {
+                ...tl,
+                title: action.title
+            } : tl)
         case 'CHANGE-TODOLIST-FILTER': {
-            const todolist = state.find(tl => tl.id === action.id);
-            if (todolist) {
-                // если нашёлся - изменим ему заголовок
-                todolist.filter = action.filter;
-            }
-            return [...state]
+            return state.map(tl => tl.id === action.id ? {
+                ...tl,
+                filter: action.filter
+            } : tl)
         }
         default:
             return state;
@@ -43,10 +30,9 @@ export const removeTodolistAC = (todolistId: string) => ({
     type: 'REMOVE-TODOLIST',
     id: todolistId
 } as const);
-export const addTodolistAC = (title: string) => ({
+export const addTodolistAC = (todolist: TodolistType) => ({
     type: 'ADD-TODOLIST',
-    title,
-    todolistId: v1()
+    todolist
 } as const);
 export const changeTodolistTitleAC = (id: string, title: string) => ({
     type: 'CHANGE-TODOLIST-TITLE',
