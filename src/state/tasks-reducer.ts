@@ -104,7 +104,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case 'ADD-TODOLIST': {
             return {
                 ...state,
-                [action.todolistId]: []
+                [action.todolist.id]: []
             }
         }
         case 'REMOVE-TODOLIST': {
@@ -163,7 +163,7 @@ export const removeTaskTC = (id: string, todolistId: string) => (dispatch: Dispa
             dispatch(action);
         })
 }
-export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
+export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch) => {
     todolistsAPI.createTask(todolistId, title)
         .then((res) => {
             const action = addTaskAC(res.data.data.item)
@@ -181,7 +181,6 @@ export const updateTaskStatusTC = (taskId: string, todolistId: string, status: T
         const task = tasksForCurrentTodolist.find(t => {
             return t.id === taskId
         })
-
 
         if (task) {
             todolistsAPI.updateTask(todolistId, taskId, {
