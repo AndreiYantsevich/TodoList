@@ -3,7 +3,7 @@ import {AddItemForm} from './AddItemForm'
 import {EditableSpan} from './EditableSpan'
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import { Delete } from '@mui/icons-material';
+import {Delete} from '@mui/icons-material';
 import {Task} from './Task'
 import {TaskStatuses, TaskType} from './api/todolists-api'
 import {FilterValuesType} from './state/todolists-reducer'
@@ -34,10 +34,9 @@ export const Todolist = React.memo(function (props: PropsType) {
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
     }, [props.addTask, props.id])
-
-    const removeTodolist = () => {
+    const removeTodolist = useCallback(() => {
         props.removeTodolist(props.id)
-    }
+    }, [props.removeTodolist, props.id])
     const changeTodolistTitle = useCallback((title: string) => {
         props.changeTodolistTitle(props.id, title)
     }, [props.id, props.changeTodolistTitle])
@@ -66,10 +65,10 @@ export const Todolist = React.memo(function (props: PropsType) {
         <div>
             {
                 tasksForTodolist.map(t => <Task key={t.id} task={t} todolistId={props.id}
-                                          removeTask={props.removeTask}
-                                          changeTaskTitle={props.changeTaskTitle}
-                                          changeTaskStatus={props.changeTaskStatus}
-                    />)
+                                                removeTask={props.removeTask}
+                                                changeTaskTitle={props.changeTaskTitle}
+                                                changeTaskStatus={props.changeTaskStatus}
+                />)
             }
         </div>
         <div style={{paddingTop: '10px'}}>

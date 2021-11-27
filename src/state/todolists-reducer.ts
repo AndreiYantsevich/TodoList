@@ -109,4 +109,12 @@ export const fetchTodolistsTC = () => {
             })
     }
 }
+export const deleteTodolistTC = (id: string) => {
+    return (dispatch: Dispatch) => {
+        todolistsAPI.deleteTodolist(id)
+            .then(() => {
+                dispatch(removeTodolistAC(id))
+            })
+    }
+}
 
