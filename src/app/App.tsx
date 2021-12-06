@@ -16,6 +16,7 @@ import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {Login} from '../features/Login/Login';
 import {Navigate, Route, Routes} from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
+import {logoutTC} from '../features/Login/auth-reducer';
 
 type PropsType = {
     demo?: boolean
@@ -24,10 +25,15 @@ type PropsType = {
 function App({demo = false}: PropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status);
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized);
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(initializeAppTC());
     }, [])
+
+    const logoutHandler = () => {
+        dispatch(logoutTC())
+    }
 
     if (!isInitialized) {
         return <div
@@ -35,6 +41,7 @@ function App({demo = false}: PropsType) {
             <CircularProgress/>
         </div>
     }
+
     return (
         <div className="App">
             <ErrorSnackbar/>
@@ -46,7 +53,7 @@ function App({demo = false}: PropsType) {
                     <Typography variant="h6">
                         Todolist
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
                 </Toolbar>
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
