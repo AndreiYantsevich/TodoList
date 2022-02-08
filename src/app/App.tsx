@@ -5,12 +5,10 @@ import {
     Button,
     CircularProgress,
     Container,
-    IconButton,
     LinearProgress,
     Toolbar,
     Typography
 } from '@material-ui/core'
-import {Menu} from '@material-ui/icons'
 import {TodolistsList} from '../features/TodolistsList/TodolistsList'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {useDispatch, useSelector} from 'react-redux'
@@ -21,7 +19,7 @@ import {Login} from '../features/Login/Login'
 import {logoutTC} from '../features/Login/auth-reducer'
 
 type PropsType = {
-    demo?: boolean
+    demo?: boolean;
 }
 
 function App({demo = false}: PropsType) {
