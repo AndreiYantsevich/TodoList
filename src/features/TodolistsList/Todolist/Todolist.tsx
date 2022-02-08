@@ -1,9 +1,8 @@
 import React, {useCallback, useEffect} from 'react'
 import {AddItemForm} from '../../../components/AddItemForm/AddItemForm'
 import {EditableSpan} from '../../../components/EditableSpan/EditableSpan'
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import {Delete} from '@mui/icons-material';
+import {Button, IconButton} from '@material-ui/core'
+import {Delete} from '@material-ui/icons'
 import {Task} from './Task/Task'
 import {TaskStatuses, TaskType} from '../../../api/todolists-api'
 import {FilterValuesType, TodolistDomainType} from '../todolists-reducer'
@@ -26,6 +25,15 @@ type PropsType = {
 export const Todolist = React.memo(function ({demo = false, ...props}: PropsType) {
     console.log('Todolist called')
 
+    const dispatch = useDispatch()
+    useEffect(() => {
+        if (demo) {
+            return
+        }
+        const thunk = fetchTasksTC(props.todolist.id)
+        dispatch(thunk)
+    }, [])
+
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.todolist.id)
     }, [props.addTask, props.todolist.id])
@@ -41,6 +49,7 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
     const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.todolist.id), [props.todolist.id, props.changeFilter])
     const onCompletedClickHandler = useCallback(() => props.changeFilter('completed', props.todolist.id), [props.todolist.id, props.changeFilter])
 
+
     let tasksForTodolist = props.tasks
 
     if (props.todolist.filter === 'active') {
@@ -52,17 +61,14 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
 
     return <div>
         <h3><EditableSpan value={props.todolist.title} onChange={changeTodolistTitle}/>
-            <IconButton onClick={removeTodolist}
-                        disabled={props.todolist.entityStatus === 'loading'}>
+            <IconButton onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}>
                 <Delete/>
             </IconButton>
         </h3>
-        <AddItemForm addItem={addTask}
-                     disabled={props.todolist.entityStatus === 'loading'}/>
+        <AddItemForm addItem={addTask} disabled={props.todolist.entityStatus === 'loading'}/>
         <div>
             {
-                tasksForTodolist.map(t => <Task key={t.id} task={t}
-                                                todolistId={props.todolist.id}
+                tasksForTodolist.map(t => <Task key={t.id} task={t} todolistId={props.todolist.id}
                                                 removeTask={props.removeTask}
                                                 changeTaskTitle={props.changeTaskTitle}
                                                 changeTaskStatus={props.changeTaskStatus}
@@ -72,7 +78,7 @@ export const Todolist = React.memo(function ({demo = false, ...props}: PropsType
         <div style={{paddingTop: '10px'}}>
             <Button variant={props.todolist.filter === 'all' ? 'outlined' : 'text'}
                     onClick={onAllClickHandler}
-                    color={'inherit'}
+                    color={'default'}
             >All
             </Button>
             <Button variant={props.todolist.filter === 'active' ? 'outlined' : 'text'}
