@@ -3,9 +3,9 @@ import {authAPI} from '../api/todolists-api'
 import {setIsLoggedInAC} from '../features/Login/auth-reducer'
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-const initialState = {
-    status: 'idle' as RequestStatusType,
-    error: null as string | null,
+const initialState: InitialStateType = {
+    status: 'idle',
+    error: null,
     isInitialized: false
 }
 
@@ -29,7 +29,11 @@ export const appReducer = slice.reducer;
 export const {setAppErrorAC, setAppStatusAC, setAppInitializedAC} = slice.actions;
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-
+export type InitialStateType = {
+    status: RequestStatusType
+    error: string | null
+    isInitialized: boolean
+}
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {
     authAPI.me().then(res => {
@@ -38,7 +42,6 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
         } else {
 
         }
-
         dispatch(setAppInitializedAC({value: true}));
     })
 }

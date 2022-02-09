@@ -4,8 +4,12 @@ import {authAPI, LoginParamsType} from '../../api/todolists-api'
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils'
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-const initialState = {
+const initialState: InitialStateType = {
     isLoggedIn: false
+}
+
+export type InitialStateType = {
+    isLoggedIn: boolean
 }
 
 const slice = createSlice({
