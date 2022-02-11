@@ -1,3 +1,23 @@
+# Todo List.
+
+#### Author:
+- [Андрей @yantsev1ch](https://github.com/yantsev1ch) - Frontend developer
+
+#### Deploy: 
+- https://yantsev1ch.github.io/TodoList/
+
+### Stack:  
+1. React - https://reactjs.org/  
+2. Redux-Toolkit, redux-thunk, redux-devtools-extension - https://redux.js.org/  
+3. Typescript - https://www.typescriptlang.org/
+
+### Used libs:  
+1. material-ui - https://material-ui.com/
+2. axios - https://github.com/axios/axios
+3. formik - https://formik.org/
+
+# Getting Started with Create React App
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
