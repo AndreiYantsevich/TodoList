@@ -29,7 +29,9 @@ function App({demo = false}: PropsType) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(initializeAppTC())
+        if (!demo) {
+            dispatch(initializeAppTC())
+        }
     }, [])
 
     const logoutHandler = useCallback(() => {
@@ -49,10 +51,11 @@ function App({demo = false}: PropsType) {
                 <ErrorSnackbar/>
                 <AppBar position="static">
                     <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
-                        <Typography variant="h6" >
+                        <Typography variant="h6">
                             Todolist
                         </Typography>
-                        {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
+                        {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log
+                            out</Button>}
                     </Toolbar>
                     {status === 'loading' && <LinearProgress/>}
                 </AppBar>
