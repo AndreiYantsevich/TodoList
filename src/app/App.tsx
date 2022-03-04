@@ -5,37 +5,41 @@ import {
     Button,
     CircularProgress,
     Container,
+    IconButton,
     LinearProgress,
     Toolbar,
     Typography
 } from '@material-ui/core'
-import {TodolistsList} from '../features/TodolistsList/TodolistsList'
+import {Menu} from '@material-ui/icons'
+import {TodolistsList} from '../features/TodolistsList'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
-import {useDispatch, useSelector} from 'react-redux'
-import {AppRootStateType} from './store'
-import {initializeAppTC, RequestStatusType} from './app-reducer'
-import {HashRouter, Route} from 'react-router-dom'
-import {Login} from '../features/Login/Login'
-import {logoutTC} from '../features/Login/auth-reducer'
+import {useSelector} from 'react-redux'
+import {appActions} from '../features/Application'
+import {Route} from 'react-router-dom'
+import {authActions, authSelectors, Login} from '../features/Auth'
+import {selectIsInitialized, selectStatus} from '../features/Application/selectors'
+import {useActions} from '../utils/redux-utils'
 
 type PropsType = {
-    demo?: boolean;
+    demo?: boolean
 }
 
 function App({demo = false}: PropsType) {
-    const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
-    const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const dispatch = useDispatch()
+    const status = useSelector(selectStatus)
+    const isInitialized = useSelector(selectIsInitialized)
+    const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
+
+    const {logout} = useActions(authActions)
+    const {initializeApp} = useActions(appActions)
 
     useEffect(() => {
         if (!demo) {
-            dispatch(initializeAppTC())
+            initializeApp()
         }
     }, [])
 
     const logoutHandler = useCallback(() => {
-        dispatch(logoutTC())
+        logout()
     }, [])
 
     if (!isInitialized) {
@@ -46,16 +50,17 @@ function App({demo = false}: PropsType) {
     }
 
     return (
-        <HashRouter>
             <div className="App">
                 <ErrorSnackbar/>
                 <AppBar position="static">
-                    <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <Toolbar>
+                        <IconButton edge="start" color="inherit" aria-label="menu">
+                            <Menu/>
+                        </IconButton>
                         <Typography variant="h6">
-                            Todolist
+                            News
                         </Typography>
-                        {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log
-                            out</Button>}
+                        {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
                     </Toolbar>
                     {status === 'loading' && <LinearProgress/>}
                 </AppBar>
@@ -64,7 +69,6 @@ function App({demo = false}: PropsType) {
                     <Route path={'/login'} render={() => <Login/>}/>
                 </Container>
             </div>
-        </HashRouter>
     )
 }
 
