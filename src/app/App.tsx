@@ -53,12 +53,9 @@ function App({demo = false}: PropsType) {
             <div className="App">
                 <ErrorSnackbar/>
                 <AppBar position="static">
-                    <Toolbar>
-                        <IconButton edge="start" color="inherit" aria-label="menu">
-                            <Menu/>
-                        </IconButton>
+                    <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
                         <Typography variant="h6">
-                            News
+                            Todolist
                         </Typography>
                         {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
                     </Toolbar>
